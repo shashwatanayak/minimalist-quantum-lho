@@ -19,7 +19,7 @@ A minimalist and efficient tool to visualize the energy levels and wavefunctions
 
 ## How to Use
 
-1. Download the ZIP file from the repository and extract it to your desired location.
+1. Download the [ZIP file](https://github.com/shashwatanayak/minimalist-quantum-lho/blob/main/harmonic_oscillator_visualization.zip) from the repository and extract it to your desired location.
 
 2. Install Required Libraries:
    ```bash
