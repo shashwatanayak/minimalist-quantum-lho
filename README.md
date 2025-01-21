@@ -82,7 +82,8 @@ The tool is designed to help users understand the behavior of quantum harmonic o
 
 Below is an example of the GUI interface and plots:
 
-![Quantum Harmonic Oscillator Visualization](screenshot.png)
+![Quantum Harmonic Oscillator Visualization - 1st Excited State](screenshot.png)
+![Quantum Harmonic Oscillator Visualization - All States](screenshot2.png)
 
 ---
 
