@@ -89,7 +89,7 @@ Below is an example of the GUI interface and plots:
 ## Developed By
 
 **Shashwata Nayak**  
-- **GitHub Repository**: [Click Here](https://github.com/shashwatanayak/quantum-harmonic-oscillator-visualization)  
+- **GitHub Repository**: [Click Here](https://github.com/shashwatanayak/minimalist-quantum-lho)  
 - **Contact**: [shashwata@versatilex.in](mailto:shashwata@versatilex.in)
 
 ---
