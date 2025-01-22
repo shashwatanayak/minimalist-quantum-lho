@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum Harmonic Oscillator</title>
+  <script src="https://cdn.plot.ly/plotly-2.24.2.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      text-align: center;
+      font-size: 18px;
+      padding: 10px;
+      background-color: #f4f4f4;
+      border-bottom: 1px solid #ddd;
+    }
+    .container {
+      padding: 10px;
+    }
+    .control-panel {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    label {
+      font-size: 12px;
+    }
+    select, button {
+      font-size: 12px;
+      padding: 5px;
+      margin: 5px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .full-width {
+      grid-column: span 2;
+    }
+    footer {
+      text-align: center;
+      font-size: 10px;
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #f4f4f4;
+      border-top: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  Quantum Harmonic Oscillator Visualization Tool
+</header>
+
+<div class="container">
+  <div class="control-panel">
+    <label for="state-select">Select State:</label>
+    <select id="state-select">
+      <option value="all">All States</option>
+      <option value="0">State 0</option>
+      <option value="1">State 1</option>
+      <option value="2">State 2</option>
+      <option value="3">State 3</option>
+      <option value="4">State 4</option>
+      <option value="5">State 5</option>
+      <option value="6">State 6</option>
+      <option value="7">State 7</option>
+      <option value="8">State 8</option>
+      <option value="9">State 9</option>
+      <option value="10">State 10</option>
+    </select>
+    <button onclick="updatePlots()">Calculate</button>
+  </div>
+
+  <div class="grid">
+    <div id="full-harmonic"></div>
+    <div id="half-harmonic"></div>
+    <div id="superposition" class="full-width"></div>
+  </div>
+</div>
+
+<footer>
+  Program is developed by Shashwata Nayak 
+  <br>Repository = Find it on <a href="https://github.com/shashwatanayak/minimalist-quantum-lho" target="_blank">GitHub</a> <br>
+  For any GitCommit, you can directly contact - 
+  <a href="mailto:shashwata@versatilex.in">shashwata@versatilex.in</a> <hr>
+  <div style="border: 1px solid #ddd; padding: 15px; margin: 20px 0; background-color: #f9f9f9; font-size: 12px; line-height: 1.6; text-align: justify;">
+  <strong>Note:</strong> This web version is a simplified adaptation of the original Python program. It is designed to provide a preview of the Python console output without the need to install additional dependencies. For full functionality, advanced controls, further testing, or to make modifications and enhancements, download the 
+  <a href="https://github.com/shashwatanayak/minimalist-quantum-lho/blob/main/harmonic_oscillator_visualization.zip" target="_blank" style="color: #007bff; text-decoration: none;">Python Code</a>.
+</div>
+
+</footer>
+
+<script>
+  function harmonicOscillatorWavefunction(n, x) {
+    const coeff = Math.sqrt(1 / (Math.pow(2, n) * factorial(n))) * Math.pow(Math.PI, -0.25);
+    const hermitePoly = hermite(n, x);
+    return coeff * hermitePoly * Math.exp(-Math.pow(x, 2) / 2);
+  }
+
+  function hermite(n, x) {
+    if (n === 0) return 1;
+    if (n === 1) return 2 * x;
+    return 2 * x * hermite(n - 1, x) - 2 * (n - 1) * hermite(n - 2, x);
+  }
+
+  function factorial(n) {
+    if (n === 0 || n === 1) return 1;
+    return n * factorial(n - 1);
+  }
+
+  function potential(x) {
+    return 0.5 * Math.pow(x, 2);
+  }
+
+  function generateData(maxState, selectedState, range) {
+    const x = [];
+    const yPotential = [];
+    const wavefunctions = [];
+    const horizontalLines = [];
+    for (let i = 0; i < 500; i++) {
+      const xi = range[0] + (range[1] - range[0]) * (i / 499);
+      x.push(xi);
+      yPotential.push(potential(xi));
+    }
+
+    for (let n = 0; n <= maxState; n++) {
+      if (selectedState !== null && n !== selectedState) continue;
+      const yWave = x.map((xi) => harmonicOscillatorWavefunction(n, xi) + n);
+      wavefunctions.push({ x, y: yWave, name: `State ${n}`, type: "scatter" });
+
+      horizontalLines.push({
+        x: range,
+        y: [n, n],
+        name: `Energy Level ${n}`,
+        mode: "lines",
+        line: { dash: "dot", color: "gray", width: 1 },
+        showlegend: false,
+      });
+    }
+
+    return { x, yPotential, wavefunctions, horizontalLines };
+  }
+
+  function updatePlots() {
+    const maxState = 10;
+    const stateSelect = document.getElementById("state-select").value;
+    const selectedState = stateSelect === "all" ? null : parseInt(stateSelect);
+
+    const fullData = generateData(maxState, selectedState, [-4, 4]);
+    const fullLayout = {
+      title: "Harmonic Oscillator with Potential",
+      xaxis: { title: "x" },
+      yaxis: { title: "ψ(x) + Energy Level" },
+    };
+    Plotly.newPlot("full-harmonic", [
+      { x: fullData.x, y: fullData.yPotential, name: "Potential", type: "scatter" },
+      ...fullData.wavefunctions,
+      ...fullData.horizontalLines,
+    ], fullLayout);
+
+    const halfData = generateData(maxState, selectedState, [0, 4]);
+    const halfLayout = {
+      title: "Half Harmonic Oscillator with Potential",
+      xaxis: { title: "x" },
+      yaxis: { title: "ψ(x) + Energy Level" },
+    };
+    Plotly.newPlot("half-harmonic", [
+      { x: halfData.x, y: halfData.yPotential, name: "Potential", type: "scatter" },
+      ...halfData.wavefunctions,
+      ...halfData.horizontalLines,
+    ], halfLayout);
+
+    const superpositionLayout = {
+      title: "Superposition of Full and Half Harmonic Oscillator",
+      xaxis: { title: "x" },
+      yaxis: { title: "ψ(x) + Energy Level" },
+    };
+    Plotly.newPlot("superposition", [
+      { x: fullData.x, y: fullData.yPotential, name: "Potential", type: "scatter" },
+      ...fullData.wavefunctions,
+      ...fullData.horizontalLines,
+      ...halfData.wavefunctions.map((w) => ({
+        ...w,
+        name: w.name + " (Half)",
+        line: { dash: "dot" },
+      })),
+    ], superpositionLayout);
+  }
+
+  updatePlots();
+</script>
+
+</body>
+</html>
