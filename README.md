@@ -21,19 +21,23 @@ A minimalist and efficient tool to visualize the energy levels and wavefunctions
 
 ## How to Use
 
-1. Download the [ZIP file](https://github.com/shashwatanayak/minimalist-quantum-lho/blob/main/harmonic_oscillator_visualization.zip) from the repository and extract it to your desired location.
+1. To clone this repository, use the following command:
+   ```bash
+   git clone https://github.com/shashwatanayak/minimalist-quantum-lho.git
 
-2. Install Required Libraries:
+2. Alternatively, you can download the [Zip File](https://github.com/shashwatanayak/minimalist-quantum-lho/blob/main/harmonic_oscillator_visualization.zip) directly from the repository.
+  
+3. Install Required Libraries:
    ```bash
    pip install matplotlib numpy pillow
    ```
 
-3. Run the Program:
+4. Run the Program:
    ```bash
    python harmonic_oscillator_visualization.py
    ```
 
-4. Explore the GUI:
+5. Explore the GUI:
    - Select a quantum state (0 to 10) from the dropdown.
    - Click "Calculate" to update the plots.
 
