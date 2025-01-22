@@ -2,6 +2,8 @@
 
 A minimalist and efficient tool to visualize the energy levels and wavefunctions of the **Quantum Harmonic Oscillator** and **Half Harmonic Oscillator** up to the 10th state. The tool includes a side-by-side comparison of the oscillators with an additional superposition plot for better visualization and analysis.
 
+### A preview of the Python App is available for Web - [Try Now](https://shashwatanayak.github.io/minimalist-quantum-lho/)
+
 ---
 
 ## Features
